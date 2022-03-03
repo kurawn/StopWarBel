@@ -55,7 +55,6 @@ class ModelClaim(admin.ModelAdmin):
     list_display = ['id', 'show_user_filter_url', 'show_status_filter_url',
                     'description', 'date_create']
     search_fields = ('id', 'user__user_id', 'user__full_name', 'user__username', 'user__date_reg')
-    inlines = [ProofInlines]
 
     def show_user_filter_url(self, obj):
         return format_html("<a href='?user={url}'>{name}</a>",

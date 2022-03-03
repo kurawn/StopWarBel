@@ -46,12 +46,13 @@ class Post (models.Model):
 
 
 class Proof(models.Model):
-    claim = models.ForeignKey(Post, verbose_name='Заявка',
-                              on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='Пользоветель',
+                              on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(verbose_name='Фото',
                               upload_to='proof/image/', blank=True)
     video = models.FileField(verbose_name='Видео',
                              upload_to='proof/video/', blank=True)
+    # description = models.Model
     date_create = models.DateTimeField(verbose_name='Дата Загрузки',
                                        default=now)
 
