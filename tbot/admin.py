@@ -69,6 +69,7 @@ class ModelClaim(admin.ModelAdmin):
 
 @admin.register(User)
 class ModelUser(admin.ModelAdmin):
+    inlines = [ProofInlines,]
     list_display = ['user_id', 'name', 'username',]
     search_fields = ('user_id', 'name', 'username')
 

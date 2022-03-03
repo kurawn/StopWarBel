@@ -1,6 +1,7 @@
 from telebot import types
 import io
 from datetime import datetime
+from django.core.files.uploadedfile import UploadedFile
 
 from telebot.apihelper import ApiTelegramException
 
@@ -96,165 +97,142 @@ def text_messages(message: types.Message):
                                                              'пересылайте новости с нашего канала своим друзьям, '
                                                              'поговорите с '
                                                              'родителями и знакомыми. Помогите остановить эту войну!»')
-        # if message.content_type == 'document':
-        #     doc_type = message.document.mime_type
-        #     if 'image' in doc_type:
-        #         try:
-        #             file_info = tbot.get_file(message.document.file_id)
-        #             downloaded_file = tbot.download_file(file_info.file_path)
-        #             try:
-        #                 file_name = f'{datetime.now().astimezone().timestamp()}' \
-        #                             f'_{message.document.file_name}'
-        #             except Exception:
-        #                 file_name = f'{message.chat.id}' \
-        #                             f'_{datetime.now().astimezone().timestamp()}' \
-        #                             f'_p.png'
-        #             image = ImageFile(io.BytesIO(downloaded_file), name=file_name)
-        #             Proof.objects.create(claim=claim, image=image)
-        #             tbot.send_message(message.chat.id,
-        #                               f'\n\nЗагружено файлов: {len_proof}'
-        #                               '\n\nОтлично! Если у Вас есть еще материалы,'
-        #                               ' отправляйте ниже!'
-        #                               '\n\nЕсли больше материалов нет,'
-        #                               ' тогда нажмите "Продолжить"',
-        #                               parse_mode='HTML',
-        #                               reply_markup=back_and_next_keyboard())
-        #         except Exception as e:
-        #             logger.error(e)
-        #             if 'file is too big' in str(e):
-        #                 tbot.send_message(message.chat.id,
-        #                                   'Упс... Файл слишком большой!')
-        #     elif 'video' in doc_type:
-        #         try:
-        #             ms = tbot.send_message(message.chat.id,
-        #                                    'Секундочку, уже загружаю'
-        #                                    ' Ваше видео на сервер...')
-        #             file_info = tbot.get_file(message.document.file_id)
-        #             downloaded_file = tbot.download_file(file_info.file_path)
-        #             try:
-        #                 file_name = f'{datetime.now().astimezone().timestamp()}' \
-        #                             f'_{message.document.file_name}'
-        #             except Exception:
-        #                 file_name = f'{message.chat.id}' \
-        #                             f'_{datetime.now().astimezone().timestamp()}' \
-        #                             f'_v.mp4'
-        #             video = UploadedFile(io.BytesIO(downloaded_file),
-        #                                  name=file_name)
-        #             Proof.objects.create(claim=claim, video=video)
-        #             tbot.send_message(message.chat.id,
-        #                               f'\n\nЗагружено файлов: {len_proof}'
-        #                               '\n\nОтлично! Если у Вас есть еще материалы,'
-        #                               ' отправляйте ниже!'
-        #                               '\n\nЕсли больше материалов нет,'
-        #                               ' тогда нажмите "Продолжить"',
-        #                               parse_mode='HTML',
-        #                               reply_markup=back_and_next_keyboard())
-        #         except Exception as e:
-        #             logger.error(e)
-        #             if 'file is too big' in str(e):
-        #                 tbot.send_message(message.chat.id,
-        #                                   'Упс... Файл слишком большой!')
-        #     else:
-        #         tbot.send_message(message.chat.id,
-        #                           'Упс... Я не смог распознать файл,'
-        #                           ' проверь это точно видео или фото')
-        # elif message.content_type == 'photo':
-        #     try:
-        #         file_info = tbot.get_file(message.photo[-1].file_id)
-        #         downloaded_file = tbot.download_file(file_info.file_path)
-        #         image = ImageFile(io.BytesIO(downloaded_file),
-        #                           name=f'{datetime.now().astimezone().timestamp()}'
-        #                                f'.png')
-        #         Proof.objects.create(claim=claim, image=image)
-        #         ms = tbot.send_message(message.chat.id,
-        #                                f'\n\nЗагружено файлов: {len_proof}'
-        #                                '\n\nОтлично! Если у Вас есть еще материалы,'
-        #                                ' отправляйте ниже!'
-        #                                '\n\nЕсли больше материалов нет,'
-        #                                ' тогда нажмите "Продолжить"',
-        #                                parse_mode='HTML',
-        #                                reply_markup=back_and_next_keyboard())
-        #     except Exception as e:
-        #         logger.error(e)
-        #         if 'file is too big' in str(e):
-        #             tbot.send_message(message.chat.id,
-        #                               'Упс... Файл слишком большой!')
-        # elif message.content_type == 'video':
-        #     try:
-        #
-        #         file_info = tbot.get_file(message.video.file_id)
-        #         downloaded_file = tbot.download_file(file_info.file_path)
-        #         try:
-        #             file_name = f'{datetime.now().astimezone().timestamp()}_' + \
-        #                         message.json['video']['file_name']
-        #         except Exception:
-        #             file_name = f'{message.chat.id}' \
-        #                         f'_{datetime.now().astimezone().timestamp()}' \
-        #                         f'_v.mp4'
-        #         video = UploadedFile(io.BytesIO(downloaded_file), name=file_name)
-        #         Proof.objects.create(claim=claim, video=video)
-        #         tbot.send_message(message.chat.id,
-        #                           f'\n\nЗагружено файлов: {len_proof}'
-        #                           '\n\nОтлично! Если у Вас есть еще материалы,'
-        #                           ' отправляйте ниже!'
-        #                           '\n\nЕсли больше материалов нет, тогда нажмите'
-        #                           ' "Продолжить"',
-        #                           parse_mode='HTML',
-        #                           reply_markup=back_and_next_keyboard())
-        #     except Exception as e:
-        #         logger.error(e)
-        #         if 'file is too big' in str(e):
-        #             tbot.send_message(message.chat.id,
-        #                               'Упс... Файл слишком большой!')
-        # elif message.content_type == 'animation':
-        #     if message.document:
-        #         try:
-        #             tbot.send_message(message.chat.id,
-        #                               'Секундочку, уже загружаю'
-        #                               ' Ваше видео на сервер...')
-        #             file_info = tbot.get_file(message.document.file_id)
-        #             downloaded_file = tbot.download_file(file_info.file_path)
-        #             try:
-        #                 file_name = f'{datetime.now().astimezone().timestamp()}' \
-        #                             f'_{message.document.file_name}'
-        #             except Exception:
-        #                 file_name = f'{message.chat.id}' \
-        #                             f'_{datetime.now().astimezone().timestamp()}' \
-        #                             f'_v.mp4'
-        #             video = UploadedFile(io.BytesIO(downloaded_file),
-        #                                  name=file_name)
-        #             Proof.objects.create(claim=claim, video=video)
-        #             tbot.send_message(message.chat.id,
-        #                               f'\n\nЗагружено файлов: {len_proof}'
-        #                               '\n\nОтлично! Если у Вас есть еще материалы,'
-        #                               ' отправляйте ниже!'
-        #                               '\n\nЕсли больше материалов нет,'
-        #                               ' тогда нажмите "Продолжить"',
-        #                               parse_mode='HTML',
-        #                               reply_markup=back_and_next_keyboard())
-        #         except Exception as e:
-        #             logger.error(e)
-        #             if 'file is too big' in str(e):
-        #                 tbot.send_message(message.chat.id,
-        #                                   'Упс... Файл слишком большой!')
-        #     else:
-        #         tbot.send_message(message.chat.id,
-        #                           'Упс... Я не смог распознать файл,'
-        #                           ' проверь это точно видео или фото')
-        # elif message.content_type == 'text' and message.text == 'Продолжить':
-        #     tbot.send_message(message.chat.id, f'Осталась ли переписка с негодяем?',
-        #                       reply_markup=message_save_keyboard())
-        # else:
-        #     tbot.send_message(message.chat.id,
-        #                       'Упс... Я не смог распознать файл, проверь это точно'
-        #                       ' видео или фото')
+        if message.content_type == 'document':
+            doc_type = message.document.mime_type
+            if 'image' in doc_type:
+                try:
+                    file_info = tbot.get_file(message.document.file_id)
+                    downloaded_file = tbot.download_file(file_info.file_path)
+                    try:
+                        file_name = f'{datetime.now().astimezone().timestamp()}' \
+                                    f'_{message.document.file_name}'
+                    except Exception:
+                        file_name = f'{message.chat.id}' \
+                                    f'_{datetime.now().astimezone().timestamp()}' \
+                                    f'_p.png'
+                    image = ImageFile(io.BytesIO(downloaded_file), name=file_name)
+                    proof = Proof.objects.create(user=user, image=image)
+                    if message.caption:
+                        proof.description = message.caption
+                        proof.save()
+                except Exception as e:
+                    logger.error(e)
+                    if 'file is too big' in str(e):
+                        tbot.send_message(message.chat.id,
+                                          'Упс... Файл слишком большой!')
+            elif 'video' in doc_type:
+                try:
+                    ms = tbot.send_message(message.chat.id,
+                                           'Секундочку, уже загружаю'
+                                           ' Ваше видео на сервер...')
+                    file_info = tbot.get_file(message.document.file_id)
+                    downloaded_file = tbot.download_file(file_info.file_path)
+                    try:
+                        file_name = f'{datetime.now().astimezone().timestamp()}' \
+                                    f'_{message.document.file_name}'
+                    except Exception:
+                        file_name = f'{message.chat.id}' \
+                                    f'_{datetime.now().astimezone().timestamp()}' \
+                                    f'_v.mp4'
+                    video = UploadedFile(io.BytesIO(downloaded_file),
+                                         name=file_name)
+                    proof = Proof.objects.create(user=user, video=video)
+                    if message.caption:
+                        proof.description = message.caption
+                        proof.save()
+                except Exception as e:
+                    logger.error(e)
+                    if 'file is too big' in str(e):
+                        tbot.send_message(message.chat.id,
+                                          'Упс... Файл слишком большой!')
+            else:
+                tbot.send_message(message.chat.id,
+                                  'Упс... Я не смог распознать файл,'
+                                  ' проверь это точно видео или фото')
+        elif message.content_type == 'photo':
+            try:
+                file_info = tbot.get_file(message.photo[-1].file_id)
+                downloaded_file = tbot.download_file(file_info.file_path)
+                image = ImageFile(io.BytesIO(downloaded_file),
+                                  name=f'{datetime.now().astimezone().timestamp()}'
+                                       f'.png')
+                proof = Proof.objects.create(user=user, image=image)
+                if message.caption:
+                    proof.description = message.caption
+                    proof.save()
+            except Exception as e:
+                logger.error(e)
+                if 'file is too big' in str(e):
+                    tbot.send_message(message.chat.id,
+                                      'Упс... Файл слишком большой!')
+        elif message.content_type == 'video':
+            try:
+
+                file_info = tbot.get_file(message.video.file_id)
+                downloaded_file = tbot.download_file(file_info.file_path)
+                try:
+                    file_name = f'{datetime.now().astimezone().timestamp()}_' + \
+                                message.json['video']['file_name']
+                except Exception:
+                    file_name = f'{message.chat.id}' \
+                                f'_{datetime.now().astimezone().timestamp()}' \
+                                f'_v.mp4'
+                video = UploadedFile(io.BytesIO(downloaded_file), name=file_name)
+                proof = Proof.objects.create(user=user, video=video)
+                if message.caption:
+                    proof.description = message.caption
+                    proof.save()
+
+            except Exception as e:
+                logger.error(e)
+                if 'file is too big' in str(e):
+                    tbot.send_message(message.chat.id,
+                                      'Упс... Файл слишком большой!')
+        elif message.content_type == 'animation':
+            if message.document:
+                try:
+                    tbot.send_message(message.chat.id,
+                                      'Секундочку, уже загружаю'
+                                      ' Ваше видео на сервер...')
+                    file_info = tbot.get_file(message.document.file_id)
+                    downloaded_file = tbot.download_file(file_info.file_path)
+                    try:
+                        file_name = f'{datetime.now().astimezone().timestamp()}' \
+                                    f'_{message.document.file_name}'
+                    except Exception:
+                        file_name = f'{message.chat.id}' \
+                                    f'_{datetime.now().astimezone().timestamp()}' \
+                                    f'_v.mp4'
+                    video = UploadedFile(io.BytesIO(downloaded_file),
+                                         name=file_name)
+                    proof = Proof.objects.create(user=user, video=video)
+                    if message.caption:
+                        proof.description = message.caption
+                        proof.save()
+
+                except Exception as e:
+                    logger.error(e)
+                    if 'file is too big' in str(e):
+                        tbot.send_message(message.chat.id,
+                                          'Упс... Файл слишком большой!')
+            else:
+                tbot.send_message(message.chat.id,
+                                  'Упс... Я не смог распознать файл,'
+                                  ' проверь это точно видео или фото')
+        elif message.content_type == 'text' and message.text == 'Продолжить':
+            tbot.send_message(message.chat.id, f'Осталась ли переписка с негодяем?',
+                              reply_markup=message_save_keyboard())
+        else:
+            tbot.send_message(message.chat.id,
+                              'Упс... Я не смог распознать файл, проверь это точно'
+                              ' видео или фото')
 
 
 @tbot.message_handler(content_types=['photo', 'video', 'document', 'animation'])
 def add_proof(message):
     user = User.objects.get(user_id=message.from_user.id)
     claim = Post.objects.get(pk=user.state.split('_')[2])
-    len_proof = len(Proof.objects.filter(claim=claim)) + 1
+    len_proof = 1
     if message.content_type == 'document':
         doc_type = message.document.mime_type
         if 'image' in doc_type:
@@ -325,14 +303,7 @@ def add_proof(message):
                               name=f'{datetime.now().astimezone().timestamp()}'
                                    f'.png')
             Proof.objects.create(claim=claim, image=image)
-            ms = tbot.send_message(message.chat.id,
-                                   f'\n\nЗагружено файлов: {len_proof}'
-                                   '\n\nОтлично! Если у Вас есть еще материалы,'
-                                   ' отправляйте ниже!'
-                                   '\n\nЕсли больше материалов нет,'
-                                   ' тогда нажмите "Продолжить"',
-                                   parse_mode='HTML',
-                                   reply_markup=back_and_next_keyboard())
+
         except Exception as e:
             logger.error(e)
             if 'file is too big' in str(e):

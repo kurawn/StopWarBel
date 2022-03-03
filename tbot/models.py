@@ -26,7 +26,7 @@ class Post (models.Model):
                                        auto_now_add=True)
     description = models.TextField(verbose_name='Описание')
 
-    status = models.CharField(verbose_name='Статус', max_length=100,
+    status = models.TextField(verbose_name='Статус', max_length=100,
                               choices=status_option, default='wait')
 
     def __init__(self, *args, **kwargs):
@@ -55,6 +55,7 @@ class Proof(models.Model):
     # description = models.Model
     date_create = models.DateTimeField(verbose_name='Дата Загрузки',
                                        default=now)
+    description =models.CharField(max_length=2500, verbose_name='Описания', blank=True, null=True)
 
     # def __str__(self):
     #     return self.claim.login
