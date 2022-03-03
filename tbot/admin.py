@@ -50,21 +50,21 @@ class ProofInlines(admin.TabularInline):
     extra = 0
 
 
-@admin.register(Post)
-class ModelClaim(admin.ModelAdmin):
-    list_display = ['id', 'show_user_filter_url', 'show_status_filter_url',
-                    'description', 'date_create']
-    search_fields = ('id', 'user__user_id', 'user__full_name', 'user__username', 'user__date_reg')
-
-    def show_user_filter_url(self, obj):
-        return format_html("<a href='?user={url}'>{name}</a>",
-                           url=obj.user.user_id, name=obj.user.name)
-
-    def show_status_filter_url(self, obj):
-        return format_html("<a href='?status={url}'>{name}</a>", url=obj.status, name=obj.get_status_display())
-
-    # show_user_filter_url.short_description = "Пользователь добавивший заявку"
-    show_status_filter_url.short_description = "Статус заявки"
+# @admin.register(Post)
+# class ModelClaim(admin.ModelAdmin):
+#     list_display = ['id', 'show_user_filter_url', 'show_status_filter_url',
+#                     'description', 'date_create']
+#     search_fields = ('id', 'user__user_id', 'user__full_name', 'user__username', 'user__date_reg')
+#
+#     def show_user_filter_url(self, obj):
+#         return format_html("<a href='?user={url}'>{name}</a>",
+#                            url=obj.user.user_id, name=obj.user.name)
+#
+#     def show_status_filter_url(self, obj):
+#         return format_html("<a href='?status={url}'>{name}</a>", url=obj.status, name=obj.get_status_display())
+#
+#     # show_user_filter_url.short_description = "Пользователь добавивший заявку"
+#     show_status_filter_url.short_description = "Статус заявки"
 
 
 @admin.register(User)

@@ -56,6 +56,7 @@ class Proof(models.Model):
     date_create = models.DateTimeField(verbose_name='Дата Загрузки',
                                        default=now)
     description =models.CharField(max_length=2500, verbose_name='Описания', blank=True, null=True)
+    message_id = models.CharField(max_length=20, blank=True, null=True)
 
     # def __str__(self):
     #     return self.claim.login

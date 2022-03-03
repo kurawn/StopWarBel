@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-na2-(e$_rxb4+bi&rhx9c-ugbdyta_%vt8_2-atony=s5wf40('
+CSRF_TRUSTED_ORIGINS = ['https://fdd6-46-173-175-11.ngrok.io']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://e5f1-94-231-187-55.ngrok.io']
 
 
 # Application definition
